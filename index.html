@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>解約理由 選択フローチャート</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+      background: #f0f4f8;
+      color: #1a202c;
+      padding: 24px;
+      font-size: 13px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      color: #1a202c;
+    }
+    .subtitle {
+      text-align: center;
+      color: #718096;
+      font-size: 12px;
+      margin-bottom: 24px;
+    }
+
+    /* ========== FLOW LAYOUT ========== */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .arrow-down {
+      width: 2px;
+      height: 28px;
+      background: #4a5568;
+      position: relative;
+    }
+    .arrow-down::after {
+      content: '';
+      position: absolute;
+      bottom: -7px;
+      left: -5px;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #4a5568;
+    }
+
+    /* ========== BOXES ========== */
+    .box {
+      border-radius: 10px;
+      padding: 10px 18px;
+      text-align: center;
+      font-weight: 700;
+      min-width: 240px;
+      max-width: 340px;
+    }
+    .box-start {
+      background: #2d3748;
+      color: #fff;
+      font-size: 15px;
+      padding: 12px 32px;
+      border-radius: 30px;
+    }
+    .box-step {
+      background: #ebf4ff;
+      border: 2.5px solid #3182ce;
+      color: #1a365d;
+      font-size: 13px;
+    }
+    .box-step .step-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: #3182ce;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .box-warning {
+      background: #fffbeb;
+      border: 2px dashed #d69e2e;
+      color: #744210;
+      font-size: 12px;
+      padding: 8px 14px;
+      border-radius: 8px;
+    }
+
+    /* ========== BRANCH ========== */
+    .branch-wrapper {
+      width: 100%;
+      max-width: 1100px;
+    }
+    .branch-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 0px;
+    }
+    .branch-line {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      position: relative;
+    }
+    .branch-line::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 100%;
+      border-left: none;
+    }
+
+    /* ========== STEP 1 ========== */
+    .step1-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 0 auto;
+      max-width: 1100px;
+    }
+    .step1-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .condition-box {
+      background: #e9d8fd;
+      border: 2px solid #805ad5;
+      border-radius: 8px;
+      padding: 7px 10px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      width: 100%;
+      color: #44337a;
+    }
+    .result-box {
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      width: 100%;
+    }
+    .cat-d { background: #fed7d7; border: 2px solid #e53e3e; color: #742a2a; }
+    .cat-a { background: #c6f6d5; border: 2px solid #38a169; color: #1c4532; }
+    .cat-b { background: #bee3f8; border: 2px solid #3182ce; color: #1a365d; }
+    .cat-c { background: #feebc8; border: 2px solid #dd6b20; color: #652b19; }
+    .cat-e { background: #e2e8f0; border: 2px solid #718096; color: #2d3748; }
+
+    /* ========== STEP 2 ========== */
+    .usage-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .usage-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .usage-header {
+      border-radius: 8px;
+      padding: 10px 14px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .usage-ari { background: #c6f6d5; border: 2px solid #38a169; color: #1c4532; }
+    .usage-nashi { background: #fed7d7; border: 2px solid #e53e3e; color: #742a2a; }
+
+    .mapping-row {
+      display: grid;
+      grid-template-columns: 1fr 24px 1fr;
+      align-items: center;
+      gap: 4px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 6px 8px;
+      font-size: 11.5px;
+    }
+    .mapping-row .from {
+      color: #4a5568;
+      font-weight: 600;
+    }
+    .mapping-row .arrow {
+      text-align: center;
+      font-size: 16px;
+      color: #4a5568;
+      font-weight: 900;
+    }
+    .mapping-row .to {
+      font-weight: 700;
+      border-radius: 5px;
+      padding: 3px 6px;
+      text-align: center;
+    }
+    .warn-icon {
+      font-size: 11px;
+      color: #d69e2e;
+      font-weight: 800;
+      background: #fffff0;
+      border-radius: 3px;
+      padding: 1px 4px;
+      margin-left: 4px;
+    }
+
+    /* ========== STEP 3 ========== */
+    .step3-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .check-row {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+    .check-row .check-label {
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 4px;
+    }
+    .check-row .check-items {
+      color: #4a5568;
+    }
+
+    /* ========== ESCALATION ========== */
+    .escalation-box {
+      background: #fff5f5;
+      border: 2.5px solid #e53e3e;
+      border-radius: 10px;
+      padding: 12px 20px;
+      text-align: center;
+      font-size: 12px;
+      max-width: 640px;
+    }
+    .escalation-box strong { color: #c53030; }
+
+    /* ========== SECTION LABELS ========== */
+    .section {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #fff;
+      background: #4a5568;
+      border-radius: 20px;
+      padding: 3px 14px;
+      display: inline-block;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ========== ATTENTION BOX ========== */
+    .attention-section {
+      background: #fffbeb;
+      border: 2px solid #d69e2e;
+      border-radius: 10px;
+      padding: 14px 18px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .attention-section h3 {
+      font-size: 13px;
+      color: #744210;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+    .attention-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .attention-card {
+      background: #fff;
+      border: 1px solid #f6e05e;
+      border-radius: 7px;
+      padding: 7px 10px;
+      font-size: 11px;
+    }
+    .attention-card .said { color: #744210; font-weight: 700; margin-bottom: 3px; }
+    .attention-card .true { color: #2b6cb0; font-weight: 600; margin-bottom: 3px; }
+    .attention-card .how { color: #4a5568; }
+
+    /* ========== CONNECTOR LINES ========== */
+    .connector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      position: relative;
+      height: 28px;
+    }
+    .h-line {
+      height: 2px;
+      background: #4a5568;
+      flex: 1;
+      max-width: 200px;
+    }
+    .center-arrow {
+      width: 2px;
+      height: 28px;
+      background: #4a5568;
+      position: relative;
+    }
+    .center-arrow::after {
+      content: '';
+      position: absolute;
+      bottom: -7px;
+      left: -5px;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #4a5568;
+    }
+
+    /* ========== LEGEND ========== */
+    .legend {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 6px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+    }
+    .legend-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+    }
+
+    @media print {
+      body { padding: 12px; background: white; font-size: 11px; }
+    }
+
+    .divider {
+      width: 100%;
+      max-width: 1100px;
+      height: 1px;
+      background: #e2e8f0;
+      margin: 16px auto;
+    }
+
+    .step-badge {
+      background: #3182ce;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 10px;
+      border-radius: 12px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔍 解約理由 選択フローチャート</h1>
+  <p class="subtitle">担当者が誰でも同じ判定になるための標準フロー ／ 作成：2026-03-11</p>
+
+  <div class="flow">
+
+    <!-- START -->
+    <div class="box box-start">📞 解約申し出を受けた</div>
+    <div class="arrow-down"></div>
+
+    <!-- STEP 1 -->
+    <div class="section">
+      <div style="text-align:center">
+        <span class="step-badge">STEP 1</span>
+        <p style="font-size:13px; font-weight:700; color:#1a365d; margin-bottom:10px;">まず「事業継続不可・管理上の解約」かどうかを確認する</p>
+      </div>
+      <div class="step1-grid">
+        <div class="step1-col">
+          <div class="condition-box">💀 倒産 / 清算</div>
+          <div style="font-size:18px; color:#4a5568;">↓</div>
+          <div class="result-box cat-d">倒産 / 清算</div>
+        </div>
+        <div class="step1-col">
+          <div class="condition-box">🏢 M&amp;A / 閉店 / 撤退</div>
+          <div style="font-size:18px; color:#4a5568;">↓</div>
+          <div style="font-size:11px; color:#4a5568; text-align:center; font-weight:600; margin-bottom:2px;">事業消滅？</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px; width:100%;">
+            <div style="font-size:10px; text-align:center; color:#666;">→ 消滅</div>
+            <div style="font-size:10px; text-align:center; color:#666;">→ 統合</div>
+            <div class="result-box cat-d" style="font-size:11px;">M&amp;A退店 / 撤退</div>
+            <div class="result-box cat-b" style="font-size:11px;">グループ会社等の事情</div>
+          </div>
+        </div>
+        <div class="step1-col">
+          <div class="condition-box">💸 未入金 / 強制停止</div>
+          <div style="font-size:18px; color:#4a5568;">↓</div>
+          <div class="result-box cat-d">未入金によりサービス停止</div>
+        </div>
+        <div class="step1-col">
+          <div class="condition-box">🗑️ 不要なアカウントを解約</div>
+          <div style="font-size:18px; color:#4a5568;">↓</div>
+          <div class="result-box cat-d">アカウント整理</div>
+          <div style="font-size:10px; color:#718096; text-align:center;">※実質継続。チャーンと区別して記録</div>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:12px; font-size:12px; color:#c05621; font-weight:700;">
+        ⬇ 上記に当てはまらない場合、STEP 2へ
+      </div>
+    </div>
+
+    <div class="arrow-down"></div>
+
+    <!-- STEP 2 -->
+    <div class="section">
+      <div style="text-align:center">
+        <span class="step-badge">STEP 2</span>
+        <p style="font-size:13px; font-weight:700; color:#1a365d; margin-bottom:4px;">「EC週次_集計」シートで在庫変動を確認する</p>
+        <p style="font-size:11px; color:#718096; margin-bottom:10px;">※ログイン頻度は取得不可。在庫変動の有無で判定する</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 60px 1fr; align-items:start; gap:0; max-width:900px; margin:0 auto;">
+        <div style="background:#e8f5e9; border:2.5px solid #2e7d32; border-radius:10px; padding:10px 14px;">
+          <div style="font-weight:800; font-size:14px; color:#1b5e20; text-align:center; margin-bottom:6px;">✅ 利用あり</div>
+          <div style="font-size:11px; color:#2e7d32; text-align:center; background:#fff; border-radius:6px; padding:5px 8px; border:1px solid #a5d6a7;">直近4週のうち<br><strong>2週以上</strong>で在庫数値に変動</div>
+        </div>
+        <div style="text-align:center; padding-top:30px; font-size:22px; color:#4a5568;">↔</div>
+        <div style="background:#ffebee; border:2.5px solid #c62828; border-radius:10px; padding:10px 14px;">
+          <div style="font-weight:800; font-size:14px; color:#b71c1c; text-align:center; margin-bottom:6px;">❌ 利用なし</div>
+          <div style="font-size:11px; color:#c62828; text-align:center; background:#fff; border-radius:6px; padding:5px 8px; border:1px solid #ef9a9a;">直近4週のうち<br><strong>3週以上</strong>で在庫変動なし<br>（変動なしフラグが立っている）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow-down"></div>
+
+    <!-- STEP 3 -->
+    <div class="section">
+      <div style="text-align:center">
+        <span class="step-badge">STEP 3</span>
+        <p style="font-size:13px; font-weight:700; color:#1a365d; margin-bottom:10px;">顧客がフォームで選んだ理由 × 利用状況 → 真の解約理由を特定する</p>
+      </div>
+
+      <div class="usage-split">
+
+        <!-- 利用あり列 -->
+        <div class="usage-col">
+          <div class="usage-header usage-ari">✅ 在庫変動あり（利用している）</div>
+
+          <div class="mapping-row">
+            <div class="from">機能が足りない</div>
+            <div class="arrow">→</div>
+            <div class="to cat-a">機能への不満・不足</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">開発が進まない</div>
+            <div class="arrow">→</div>
+            <div class="to cat-a">開発優先度・スピードへの不満</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">他の手段で代替可能<br><span style="font-size:10px;color:#718096;">（乗り換え先が具体的）</span></div>
+            <div class="arrow">→</div>
+            <div class="to cat-a">他手段で代替可能</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">月額が高い</div>
+            <div class="arrow">→</div>
+            <div class="to cat-a">費用対効果</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">経営トップが決めた</div>
+            <div class="arrow">→</div>
+            <div class="to cat-b">上層部起因</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">CS担当に不満<br><span style="font-size:10px;color:#718096;">（CSの接触記録あり）</span></div>
+            <div class="arrow">→</div>
+            <div class="to cat-c">CS担当の応対への不満</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">営業担当に不満</div>
+            <div class="arrow">→</div>
+            <div class="to cat-c">営業担当の応対への不満</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">サポートに不満</div>
+            <div class="arrow">→</div>
+            <div class="to cat-c">サポートサービスの不足</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">業績悪化で予算削減</div>
+            <div class="arrow">→</div>
+            <div class="to cat-b">予算不足 / 削減</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">従業員が使えない<br><span style="font-size:10px;color:#718096;">（一部のみ使用）</span></div>
+            <div class="arrow">→</div>
+            <div class="to cat-b">従業員起因</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">ReCORE外の問題</div>
+            <div class="arrow">→</div>
+            <div class="to cat-b">ReCOREでは解決できない課題</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">契約時の説明不足<br><span style="font-size:10px;color:#718096;">（契約3ヶ月以上後に停止）</span></div>
+            <div class="arrow">→</div>
+            <div class="to cat-a">機能への不満 or 費用対効果<span class="warn-icon">⚠</span></div>
+          </div>
+        </div>
+
+        <!-- 利用なし列 -->
+        <div class="usage-col">
+          <div class="usage-header usage-nashi">❌ 在庫変動なし（使えていない）</div>
+
+          <div class="mapping-row">
+            <div class="from">機能が足りない<span class="warn-icon">⚠</span></div>
+            <div class="arrow">→</div>
+            <div class="to cat-b" style="background:#bee3f8">低モチベーション or リソース不足</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">他の手段で代替可能<br><span style="font-size:10px;color:#718096;">（乗り換え先が不明確）</span><span class="warn-icon">⚠</span></div>
+            <div class="arrow">→</div>
+            <div class="to cat-b" style="background:#bee3f8">低モチベーション or リソース不足</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">月額が高い<span class="warn-icon">⚠</span></div>
+            <div class="arrow">→</div>
+            <div class="to cat-b" style="background:#bee3f8">予算不足 or 低モチベーション</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">経営トップが決めた<span class="warn-icon">⚠</span></div>
+            <div class="arrow">→</div>
+            <div class="to cat-a" style="background:#c6f6d5">費用対効果 or 低モチベーション</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">多忙で時間が取れない</div>
+            <div class="arrow">→</div>
+            <div class="to cat-b" style="background:#bee3f8">リソース不足</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">使い方が難しい（OB未完了）</div>
+            <div class="arrow">→</div>
+            <div class="to cat-b" style="background:#bee3f8">ITリテラシーが低い</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">使い方が難しい（OB完了済）<span class="warn-icon">⚠</span></div>
+            <div class="arrow">→</div>
+            <div class="to cat-c" style="background:#feebc8">サポート不足 or 機能への不満</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">担当者が変わった<br><span style="font-size:10px;color:#718096;">（変更前から変動なし）</span><span class="warn-icon">⚠</span></div>
+            <div class="arrow">→</div>
+            <div class="to cat-b" style="background:#bee3f8">低モチベーション or リソース不足</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">担当者が変わった<br><span style="font-size:10px;color:#718096;">（変更後に変動が停止）</span></div>
+            <div class="arrow">→</div>
+            <div class="to cat-b" style="background:#bee3f8">引き継ぎ不備</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">CS担当に不満<br><span style="font-size:10px;color:#718096;">（CSの接触記録なし）</span></div>
+            <div class="arrow">→</div>
+            <div class="to cat-c" style="background:#feebc8">CSフォローの不足</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">従業員が使えない<br><span style="font-size:10px;color:#718096;">（完全に停止）</span><span class="warn-icon">⚠</span></div>
+            <div class="arrow">→</div>
+            <div class="to cat-b" style="background:#bee3f8">低モチベーション or ITリテラシーが低い</div>
+          </div>
+          <div class="mapping-row">
+            <div class="from">契約時の説明不足<br><span style="font-size:10px;color:#718096;">（契約3ヶ月以内に停止）</span></div>
+            <div class="arrow">→</div>
+            <div class="to cat-c" style="background:#feebc8">契約時の説明不足</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="arrow-down"></div>
+
+    <!-- STEP 4 -->
+    <div class="section">
+      <div style="text-align:center">
+        <span class="step-badge">STEP 4</span>
+        <p style="font-size:13px; font-weight:700; color:#1a365d; margin-bottom:10px;">判定を確定する</p>
+      </div>
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; max-width:900px; margin:0 auto;">
+        <div style="background:#e8f5e9; border:1.5px solid #38a169; border-radius:8px; padding:10px 14px; text-align:center;">
+          <div style="font-weight:800; color:#1c4532; margin-bottom:4px;">✅ 発言・データ一致</div>
+          <div style="font-size:11px; color:#2d6a4f;">そのまま確定。CRMに記録。</div>
+        </div>
+        <div style="background:#fff8e1; border:1.5px solid #f9a825; border-radius:8px; padding:10px 14px; text-align:center;">
+          <div style="font-weight:800; color:#f57f17; margin-bottom:4px;">🤔 一次判定で迷う</div>
+          <div style="font-size:11px; color:#795548;">FS担当と2名で協議して合意形成。</div>
+        </div>
+        <div style="background:#ffebee; border:1.5px solid #e53e3e; border-radius:8px; padding:10px 14px; text-align:center;">
+          <div style="font-weight:800; color:#b71c1c; margin-bottom:4px;">🚨 2名でも合意できない</div>
+          <div style="font-size:11px; color:#c62828;">マネージャーへエスカレーション。</div>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:10px; font-size:11px; color:#e53e3e; font-weight:700;">
+        ⚠️「その他」を安易に選ばないこと。必ず追加ヒアリングを実施する。
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 注意が必要なケース -->
+    <div class="section">
+      <div class="attention-section">
+        <h3>⚠️ 特に注意：「表向きの理由」と「真因」がずれやすいパターン一覧</h3>
+        <div class="attention-grid">
+          <div class="attention-card">
+            <div class="said">👤 顧客：「機能が足りない」</div>
+            <div class="true">✅ 真因：低モチベーション</div>
+            <div class="how">→ 在庫変動がない場合は"使っていないのに機能不足"と疑う</div>
+          </div>
+          <div class="attention-card">
+            <div class="said">👤 顧客：「他に乗り換える」</div>
+            <div class="true">✅ 真因：低モチベーション / リソース不足</div>
+            <div class="how">→ 乗り換え先が具体的でない場合は言い訳の可能性</div>
+          </div>
+          <div class="attention-card">
+            <div class="said">👤 顧客：「月額が高い」</div>
+            <div class="true">✅ 真因：低モチベーション / 予算不足</div>
+            <div class="how">→ 使えていないから高く感じている可能性</div>
+          </div>
+          <div class="attention-card">
+            <div class="said">👤 顧客：「上が決めた」</div>
+            <div class="true">✅ 真因：費用対効果 / 低モチベーション</div>
+            <div class="how">→ 上層部起因は「結果」。変更前から変動なしなら真因は別</div>
+          </div>
+          <div class="attention-card">
+            <div class="said">👤 顧客：「担当者が変わった」</div>
+            <div class="true">✅ 真因：低モチベーション / リソース不足</div>
+            <div class="how">→ 変更前から変動なしなら「引き継ぎ不備は口実」と判断</div>
+          </div>
+          <div class="attention-card">
+            <div class="said">👤 顧客：「従業員が使えない」</div>
+            <div class="true">✅ 真因：低モチベーション / ITリテラシーが低い</div>
+            <div class="how">→ 変動が完全に停止している場合は推進者も動けていない</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 凡例 -->
+    <div class="section">
+      <p style="text-align:center; font-size:11px; font-weight:700; color:#4a5568; margin-bottom:8px;">カテゴリ凡例</p>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot cat-a"></div>A. 製品・サービス起因</div>
+        <div class="legend-item"><div class="legend-dot cat-b"></div>B. 顧客側の事情起因</div>
+        <div class="legend-item"><div class="legend-dot cat-c"></div>C. 自社（RECORE）起因</div>
+        <div class="legend-item"><div class="legend-dot cat-d"></div>D. 事業継続不可 / 管理上</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#fffbeb; border:2px solid #d69e2e;"></div>⚠ 注意ケース（表向きと真因がずれやすい）</div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
