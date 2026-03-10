@@ -680,5 +680,145 @@
 
   </div>
 
+  <!-- ========== Q&A ========== -->
+  <div style="max-width:1100px; margin:32px auto 0; padding-bottom:40px;">
+
+    <div style="text-align:center; margin-bottom:20px;">
+      <h2 style="font-size:18px; font-weight:800; color:#1a202c;">💬 よくある質問 Q&amp;A</h2>
+      <p style="font-size:12px; color:#718096; margin-top:4px;">フローチャートを使う際に迷いやすいポイントをまとめました</p>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:10px;">
+
+      <!-- カテゴリ：データ確認 -->
+      <div style="background:#ebf4ff; border-radius:8px; padding:8px 16px; font-size:11px; font-weight:800; color:#2b6cb0; letter-spacing:0.5px;">📊 データ確認について</div>
+
+      <details style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <summary style="padding:12px 16px; font-size:13px; font-weight:700; cursor:pointer; color:#1a202c; list-style:none; display:flex; align-items:center; gap:8px;">
+          <span style="color:#3182ce; font-size:16px;">Q.</span> EC週次_集計シートはどこで確認できますか？
+        </summary>
+        <div style="padding:0 16px 14px; font-size:12px; color:#4a5568; border-top:1px solid #e2e8f0; margin-top:0; padding-top:12px; line-height:1.8;">
+          <strong>A.</strong> Google スプレッドシート「EC週次_集計」（ID: <code style="background:#edf2f7; padding:1px 5px; border-radius:3px; font-size:11px;">1yrZY6h0A4F8j5Q9Td2clRjG8qFSPorImej-ED_ssn5U</code>）を開いてください。<br>
+          確認する列は「<strong>rawdata</strong>」シートの <code style="background:#edf2f7; padding:1px 5px; border-radius:3px; font-size:11px;">在庫あり売値合計</code>・<code style="background:#edf2f7; padding:1px 5px; border-radius:3px; font-size:11px;">在庫あり数量合計</code>、および「集計フォーマット」シートの <code style="background:#edf2f7; padding:1px 5px; border-radius:3px; font-size:11px;">フラグ（変動なし）</code> 列です。
+        </div>
+      </details>
+
+      <details style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <summary style="padding:12px 16px; font-size:13px; font-weight:700; cursor:pointer; color:#1a202c; list-style:none; display:flex; align-items:center; gap:8px;">
+          <span style="color:#3182ce; font-size:16px;">Q.</span>「直近4週」とはいつからいつまでを指しますか？
+        </summary>
+        <div style="padding:0 16px 14px; font-size:12px; color:#4a5568; border-top:1px solid #e2e8f0; padding-top:12px; line-height:1.8;">
+          <strong>A.</strong> 解約申し出を受けた時点から<strong>遡って4週間分</strong>です。例えば3月11日に申し出があった場合、2月11日〜3月11日の4週分を確認します。シートの週次集計単位でカウントしてください。
+        </div>
+      </details>
+
+      <details style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <summary style="padding:12px 16px; font-size:13px; font-weight:700; cursor:pointer; color:#1a202c; list-style:none; display:flex; align-items:center; gap:8px;">
+          <span style="color:#3182ce; font-size:16px;">Q.</span> ちょうど2週間変動なしの場合、「利用あり」と「利用なし」どちらで判定しますか？
+        </summary>
+        <div style="padding:0 16px 14pb; font-size:12px; color:#4a5568; border-top:1px solid #e2e8f0; padding-top:12px; padding-bottom:14px; line-height:1.8;">
+          <strong>A.</strong> 基準は「利用なし＝<strong>3週以上</strong>変動なし」なので、2週間変動なしは<strong>「利用あり」</strong>の判定になります。ただし活用度が落ちている可能性があるため、ヒアリング時に活用状況も確認しておくことをおすすめします。
+        </div>
+      </details>
+
+      <details style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <summary style="padding:12px 16px; font-size:13px; font-weight:700; cursor:pointer; color:#1a202c; list-style:none; display:flex; align-items:center; gap:8px;">
+          <span style="color:#3182ce; font-size:16px;">Q.</span> OBステータス（完了・未完了）はどこで確認できますか？
+        </summary>
+        <div style="padding:0 16px 14px; font-size:12px; color:#4a5568; border-top:1px solid #e2e8f0; padding-top:12px; line-height:1.8;">
+          <strong>A.</strong> スプレッドシート内「<strong>Onboarding_Schedule</strong>」シートの <code style="background:#edf2f7; padding:1px 5px; border-radius:3px; font-size:11px;">ステータス</code> 列を確認してください。ボトルネック要因は同シートの <code style="background:#edf2f7; padding:1px 5px; border-radius:3px; font-size:11px;">ボトルネック要因</code> 列に記録されています。
+        </div>
+      </details>
+
+      <details style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <summary style="padding:12px 16px; font-size:13px; font-weight:700; cursor:pointer; color:#1a202c; list-style:none; display:flex; align-items:center; gap:8px;">
+          <span style="color:#3182ce; font-size:16px;">Q.</span> CS担当の接触頻度・記録はどこで確認できますか？
+        </summary>
+        <div style="padding:0 16px 14px; font-size:12px; color:#4a5568; border-top:1px solid #e2e8f0; padding-top:12px; line-height:1.8;">
+          <strong>A.</strong>「<strong>Adaption_Schedule</strong>」シートの <code style="background:#edf2f7; padding:1px 5px; border-radius:3px; font-size:11px;">進行中のアクション</code> 列を確認してください。長期間空欄の場合は能動的アプローチが不足していた可能性があります。
+        </div>
+      </details>
+
+      <!-- カテゴリ：判定ルール -->
+      <div style="background:#e6fffa; border-radius:8px; padding:8px 16px; font-size:11px; font-weight:800; color:#234e52; letter-spacing:0.5px; margin-top:8px;">⚖️ 判定ルールについて</div>
+
+      <details style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <summary style="padding:12px 16px; font-size:13px; font-weight:700; cursor:pointer; color:#1a202c; list-style:none; display:flex; align-items:center; gap:8px;">
+          <span style="color:#3182ce; font-size:16px;">Q.</span> 複数の解約理由が当てはまる場合、どれを選べばいいですか？
+        </summary>
+        <div style="padding:0 16px 14px; font-size:12px; color:#4a5568; border-top:1px solid #e2e8f0; padding-top:12px; line-height:1.8;">
+          <strong>A.</strong> <strong>最も根本的な原因（真因）を1つ</strong>選んでください。「費用対効果」と「予算不足」が両方当てはまる場合は、「使っているが価値を感じられていない」なら費用対効果、「業績悪化による予算カット」なら予算不足、と状況に応じて判断します。迷う場合はFS担当と協議してください。
+        </div>
+      </details>
+
+      <details style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <summary style="padding:12px 16px; font-size:13px; font-weight:700; cursor:pointer; color:#1a202c; list-style:none; display:flex; align-items:center; gap:8px;">
+          <span style="color:#3182ce; font-size:16px;">Q.</span> 顧客が解約フォームを提出していない場合はどう判定しますか？
+        </summary>
+        <div style="padding:0 16px 14px; font-size:12px; color:#4a5568; border-top:1px solid #e2e8f0; padding-top:12px; line-height:1.8;">
+          <strong>A.</strong> 口頭や電話・メールでのヒアリング内容をフォームの選択肢に当てはめて判定してください。発言がない場合は利用状況データだけを根拠に判定することになるため、必ずCS担当がヒアリングを実施してから記録することを徹底してください。
+        </div>
+      </details>
+
+      <details style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <summary style="padding:12px 16px; font-size:13px; font-weight:700; cursor:pointer; color:#1a202c; list-style:none; display:flex; align-items:center; gap:8px;">
+          <span style="color:#3182ce; font-size:16px;">Q.</span>「その他」を選んでいいケースは本当にないですか？
+        </summary>
+        <div style="padding:0 16px 14px; font-size:12px; color:#4a5568; border-top:1px solid #e2e8f0; padding-top:12px; line-height:1.8;">
+          <strong>A.</strong> 追加ヒアリングを行っても既存の25項目のいずれにも明確に当てはまらない場合に限り「その他」を使用します。ただし<strong>「その他」を選んだ場合は具体的な内容をCRMに必ず記載</strong>してください。「その他」のまま記録を完了させることは禁止です。判断できない場合はマネージャーに相談してください。
+        </div>
+      </details>
+
+      <details style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <summary style="padding:12px 16px; font-size:13px; font-weight:700; cursor:pointer; color:#1a202c; list-style:none; display:flex; align-items:center; gap:8px;">
+          <span style="color:#3182ce; font-size:16px;">Q.</span> 一度記録した解約理由を後から変更できますか？
+        </summary>
+        <div style="padding:0 16px 14px; font-size:12px; color:#4a5568; border-top:1px solid #e2e8f0; padding-top:12px; line-height:1.8;">
+          <strong>A.</strong> 変更可能です。ただし変更する場合は<strong>変更理由と変更日をCRMのコメント欄に必ず記録</strong>してください。後から気づいた情報や、FS・CS協議を経て判定が変わった場合が主なケースです。勝手に変更することは避け、変更の際は関係者に共有してください。
+        </div>
+      </details>
+
+      <!-- カテゴリ：担当フロー -->
+      <div style="background:#fff5f5; border-radius:8px; padding:8px 16px; font-size:11px; font-weight:800; color:#742a2a; letter-spacing:0.5px; margin-top:8px;">👥 担当・エスカレーションについて</div>
+
+      <details style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <summary style="padding:12px 16px; font-size:13px; font-weight:700; cursor:pointer; color:#1a202c; list-style:none; display:flex; align-items:center; gap:8px;">
+          <span style="color:#3182ce; font-size:16px;">Q.</span> STEP 1〜4を毎回全部やらないといけませんか？
+        </summary>
+        <div style="padding:0 16px 14px; font-size:12px; color:#4a5568; border-top:1px solid #e2e8f0; padding-top:12px; line-height:1.8;">
+          <strong>A.</strong> <strong>STEP 1 は必ず確認</strong>してください。倒産・M&A・未入金・アカウント整理に該当すれば STEP 2 以降は不要です。該当しない場合は STEP 2〜4 をすべて踏んでください。「明らかにこれだ」と思っても、データ確認（STEP 2）を省略すると判定がずれるケースがあるので注意してください。
+        </div>
+      </details>
+
+      <details style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <summary style="padding:12px 16px; font-size:13px; font-weight:700; cursor:pointer; color:#1a202c; list-style:none; display:flex; align-items:center; gap:8px;">
+          <span style="color:#3182ce; font-size:16px;">Q.</span> FS担当への連携はいつまでにすればいいですか？
+        </summary>
+        <div style="padding:0 16px 14px; font-size:12px; color:#4a5568; border-top:1px solid #e2e8f0; padding-top:12px; line-height:1.8;">
+          <strong>A.</strong> 解約申し出を受けた<strong>当日中</strong>にCS担当へ連携してください。連携が遅れると深掘りヒアリングのタイミングを逃す可能性があります。
+        </div>
+      </details>
+
+      <details style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <summary style="padding:12px 16px; font-size:13px; font-weight:700; cursor:pointer; color:#1a202c; list-style:none; display:flex; align-items:center; gap:8px;">
+          <span style="color:#3182ce; font-size:16px;">Q.</span> マネージャーへのエスカレーションはどうやって行いますか？
+        </summary>
+        <div style="padding:0 16px 14px; font-size:12px; color:#4a5568; border-top:1px solid #e2e8f0; padding-top:12px; line-height:1.8;">
+          <strong>A.</strong> エスカレーションの具体的な手順（連絡先・フォーマット等）については、別途マネージャーから案内予定です。現時点では「FS・CS 2名で協議しても合意できなかった旨」をマネージャーに口頭またはSlackで共有してください。
+        </div>
+      </details>
+
+      <details style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+        <summary style="padding:12px 16px; font-size:13px; font-weight:700; cursor:pointer; color:#1a202c; list-style:none; display:flex; align-items:center; gap:8px;">
+          <span style="color:#3182ce; font-size:16px;">Q.</span> 解約理由の最終的な記録タイミングはいつですか？
+        </summary>
+        <div style="padding:0 16px 14px; font-size:12px; color:#4a5568; border-top:1px solid #e2e8f0; padding-top:12px; line-height:1.8;">
+          <strong>A.</strong> <strong>解約手続き完了までに</strong>CRMへ記録してください。手続き完了後にまとめて記録しようとすると情報が抜け落ちるため、判定が確定したタイミングで随時記録することを推奨します。
+        </div>
+      </details>
+
+    </div>
+  </div>
+
 </body>
 </html>
