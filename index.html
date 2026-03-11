@@ -631,7 +631,7 @@
       link: 'https://docs.google.com/spreadsheets/d/1yrZY6h0A4F8j5Q9Td2clRjG8qFSPorImej-ED_ssn5U/edit?gid=1949980661#gid=1949980661',
       choices: [
         { label: '✅ 利用あり\n直近4週のうち 2週以上 で在庫数値に変動がある', to: 'q_form', setUsage: 'ari' },
-        { label: '❌ 利用なし\n直近4週のうち 3週以上 で在庫数値に変動がない', to: 'q_form', setUsage: 'nashi' },
+        { label: '❌ 利用なし\n直近4週のうち 3週以上 で在庫数値に変動がない', to: 'q_cs_nashi', setUsage: 'nashi' },
       ]
     },
     q_ob: {
@@ -642,6 +642,17 @@
       choices: [
         { label: 'OB 未完了', to: 'r_it_literacy' },
         { label: 'OB 完了済み', to: 'q_cs' },
+      ]
+    },
+    q_cs_nashi: {
+      step: 2,
+      title: 'STEP 2 ― CS接触記録の確認（利用なし）',
+      q: '利用停止の期間中、CS担当の接触記録を確認してください',
+      hint: '「Adaption_Schedule」シートの「進行中のアクション」列を確認',
+      choices: [
+        { label: '❌ 接触記録なし\n直近3ヶ月でアクションが空欄、または在庫変動停止後に接触がない', to: 'r_cs_follow' },
+        { label: '⚠️ 接触はあるが不十分\n月2回以下 / 様子伺いのみ / 課題が記録されているのに次のアクションが未設定', to: 'r_cs_follow', warn: 'フォローの質・量が不足していたケース' },
+        { label: '✅ 定期的かつ課題解決を伴う接触あり\n月1回以上 + 操作サポート・活用提案・課題解決の記録がある', to: 'q_form', primary: true },
       ]
     },
     q_cs: {
